@@ -200,6 +200,58 @@ function Index() {
           )}
         </section>
       </div>
+
+      <Dialog open={pendingAction !== null} onOpenChange={(open) => (open ? null : closeAuth())}>
+        <DialogContent className="border-console-frame bg-control-panel text-console-text">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 font-display text-xl font-bold">
+              <ShieldAlert className="size-5 text-status-disable" />
+              Admin authentication required
+            </DialogTitle>
+            <DialogDescription className="text-console-muted">
+              Only an administrator can {pendingAction === "enable" ? "enable" : "disable"} USB access.
+              Enter admin credentials to continue.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={submitAuth} className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="admin-username">Admin username</Label>
+              <Input
+                id="admin-username"
+                autoComplete="username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="admin-password">Password</Label>
+              <Input
+                id="admin-password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+            </div>
+
+            {authError ? (
+              <p className="text-sm font-bold text-status-disable">{authError}</p>
+            ) : null}
+
+            <DialogFooter className="gap-3 sm:gap-3">
+              <Button type="button" variant="outline" onClick={closeAuth}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="console">
+                Authenticate
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
