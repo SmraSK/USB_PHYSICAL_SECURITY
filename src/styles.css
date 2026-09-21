@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
-@source "../src";
 @import "tw-animate-css";
+
+@source "../src";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -19,6 +20,8 @@
  */
 
 @theme inline {
+  --font-sans: var(--font-interface);
+  --font-display: var(--font-heading);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,42 +62,104 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-control-screen: var(--control-screen);
+  --color-control-panel: var(--control-panel);
+  --color-control-panel-foreground: var(--control-panel-foreground);
+  --color-alert: var(--alert);
+  --color-alert-hover: var(--alert-hover);
+  --color-alert-foreground: var(--alert-foreground);
+  --color-alert-edge: var(--alert-edge);
+  --color-console-text: var(--console-text);
+  --color-console-muted: var(--console-muted);
+  --color-console-frame: var(--console-frame);
+  --color-status-enable: var(--status-enable);
+  --color-status-disable: var(--status-disable);
+  --color-status-neutral: var(--status-neutral);
+  --color-logo-field: var(--logo-field);
+  --color-logo-shield: var(--logo-shield);
+  --color-logo-usb: var(--logo-usb);
+  --color-report-shell: var(--report-shell);
+  --color-report-page: var(--report-page);
+  --color-report-foreground: var(--report-foreground);
+  --color-report-heading: var(--report-heading);
+  --color-report-muted: var(--report-muted);
+  --color-report-border: var(--report-border);
+  --color-report-table-head: var(--report-table-head);
+  --radius-logo: var(--logo-radius);
+  --radius-report: var(--report-radius);
+  --shadow-action: var(--shadow-action);
+  --shadow-screen: var(--shadow-screen);
+  --shadow-report: var(--shadow-report);
+  --shadow-logo: var(--shadow-logo);
+  --spacing-logo-watermark: 19rem;
+  --spacing-logo-usb: 1.4rem;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --font-interface: Arial, Helvetica, sans-serif;
+  --font-heading: "Arial Black", Impact, Arial, sans-serif;
+  --radius: 0.25rem;
+  --logo-radius: 0.35rem;
+  --report-radius: 0.2rem;
+  --background: oklch(0.02 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.64 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.62 0.25 29);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.64 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.73 0 0);
+  --accent: oklch(0.72 0.21 147);
+  --accent-foreground: oklch(0.08 0.02 151);
+  --destructive: oklch(0.62 0.25 29);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.36 0 0);
+  --input: oklch(0.28 0 0);
+  --ring: oklch(0.72 0.21 147);
+  --chart-1: oklch(0.64 0.25 29);
+  --chart-2: oklch(0.72 0.21 147);
+  --chart-3: oklch(0.66 0.18 250);
+  --chart-4: oklch(0.78 0.18 80);
+  --chart-5: oklch(0.7 0.2 18);
+  --sidebar: oklch(0.08 0 0);
+  --sidebar-foreground: oklch(0.98 0 0);
+  --sidebar-primary: oklch(0.62 0.25 29);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.2 0 0);
+  --sidebar-accent-foreground: oklch(0.98 0 0);
+  --sidebar-border: oklch(0.36 0 0);
+  --sidebar-ring: oklch(0.72 0.21 147);
+  --control-screen: oklch(0.02 0 0);
+  --control-panel: oklch(0.66 0 0);
+  --control-panel-foreground: oklch(0.98 0 0);
+  --alert: oklch(0.62 0.25 29);
+  --alert-hover: oklch(0.56 0.24 29);
+  --alert-foreground: oklch(1 0 0);
+  --alert-edge: oklch(0.77 0.21 34);
+  --console-text: oklch(0.98 0 0);
+  --console-muted: oklch(0.76 0 0);
+  --console-frame: oklch(0.19 0 0);
+  --status-enable: oklch(0.72 0.21 147);
+  --status-disable: oklch(0.62 0.25 29);
+  --status-neutral: oklch(0.82 0.14 82);
+  --logo-field: oklch(1 0 0);
+  --logo-shield: oklch(0.72 0.21 147);
+  --logo-usb: oklch(0.25 0 0);
+  --report-shell: oklch(0.93 0 0);
+  --report-page: oklch(1 0 0);
+  --report-foreground: oklch(0.25 0 0);
+  --report-heading: oklch(0.08 0 0);
+  --report-muted: oklch(0.43 0 0);
+  --report-border: oklch(0.88 0 0);
+  --report-table-head: oklch(0.96 0 0);
+  --shadow-action: 0 3px 0 oklch(0.28 0.16 29), 0 12px 24px oklch(0 0 0 / 42%);
+  --shadow-screen: 0 0 0 1px oklch(1 0 0 / 8%), 0 28px 90px oklch(0 0 0 / 62%);
+  --shadow-report: 0 20px 60px oklch(0 0 0 / 16%);
+  --shadow-logo: 0 0 0 2px oklch(0.9 0 0), 0 16px 34px oklch(0 0 0 / 24%);
 }
 
 .dark {
@@ -140,5 +205,40 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-interface);
+  }
+}
+
+@utility opacity-logo {
+  opacity: 0.07;
+}
+
+@utility splash-fade {
+  animation: splash-fade 2s ease-out forwards;
+}
+
+@utility status-pulse {
+  animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes splash-fade {
+  0%,
+  55% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+  }
+  50% {
+    opacity: 1;
   }
 }
