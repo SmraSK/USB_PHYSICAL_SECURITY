@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, FileText, ListChecks, PowerOff, Usb, XCircle } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { UsbSecurityLogo } from "@/components/UsbSecurityLogo";
@@ -35,6 +35,7 @@ const formatTime = (date: Date) =>
   }).format(date);
 
 function Index() {
+  const [showSplash, setShowSplash] = useState(true);
   const [usbEnabled, setUsbEnabled] = useState(true);
   const [showLogs, setShowLogs] = useState(false);
   const [logs, setLogs] = useState([
@@ -46,6 +47,11 @@ function Index() {
     () => (usbEnabled ? "USB access enabled" : "USB access disabled"),
     [usbEnabled],
   );
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setShowSplash(false), 1900);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const writeLog = (message: string) => {
     setLogs((currentLogs) => [`${formatTime(new Date())} — ${message}`, ...currentLogs].slice(0, 8));
@@ -70,12 +76,14 @@ function Index() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-control-screen px-5 py-8 text-console-text">
-      <div className="splash-fade fixed inset-0 z-20 flex items-center justify-center bg-control-screen">
-        <div className="text-center">
-          <UsbSecurityLogo />
-          <p className="mt-5 font-display text-3xl font-bold text-console-text">USB Physical Security</p>
+      {showSplash ? (
+        <div className="splash-fade fixed inset-0 z-20 flex items-center justify-center bg-control-screen">
+          <div className="text-center">
+            <UsbSecurityLogo />
+            <p className="mt-5 font-display text-3xl font-bold text-console-text">USB Physical Security</p>
+          </div>
         </div>
-      </div>
+      ) : null}
 
       <UsbSecurityLogo faded />
 
