@@ -151,11 +151,11 @@ function Index() {
 
         <section className="w-full max-w-sm bg-control-panel p-8 shadow-screen">
           <div className="grid gap-5">
-            <Button variant="console" size="console" onClick={disableUsb}>
+            <Button variant="console" size="console" onClick={() => requestAction("disable")}>
               <PowerOff />
               Disable USB
             </Button>
-            <Button variant="console" size="console" onClick={enableUsb}>
+            <Button variant="console" size="console" onClick={() => requestAction("enable")}>
               <Usb />
               Enable USB
             </Button>
