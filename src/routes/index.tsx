@@ -70,16 +70,34 @@ function Index() {
     setLogs((currentLogs) => [`${formatTime(new Date())} — ${message}`, ...currentLogs].slice(0, 8));
   };
 
-  const disableUsb = () => {
-    setUsbEnabled(false);
-    setShowLogs(false);
-    writeLog("DISABLE USB command accepted by operator");
+  const requestAction = (action: "disable" | "enable") => {
+    setPendingAction(action);
+    setUsername("");
+    setPassword("");
+    setAuthError("");
   };
 
-  const enableUsb = () => {
-    setUsbEnabled(true);
+  const closeAuth = () => {
+    setPendingAction(null);
+    setAuthError("");
+  };
+
+  const submitAuth = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!pendingAction) return;
+
+    const label = pendingAction === "disable" ? "DISABLE USB" : "ENABLE USB";
+
+    if (username.trim() !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+      setAuthError("Invalid admin credentials. Access denied.");
+      writeLog(`${label} denied — failed admin authentication`);
+      return;
+    }
+
+    setUsbEnabled(pendingAction === "enable");
     setShowLogs(false);
-    writeLog("ENABLE USB command accepted by operator");
+    writeLog(`${label} command authorised by admin "${ADMIN_USERNAME}"`);
+    closeAuth();
   };
 
   const openLogs = () => {
