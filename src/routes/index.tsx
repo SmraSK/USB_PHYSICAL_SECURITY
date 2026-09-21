@@ -1,9 +1,22 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, FileText, ListChecks, PowerOff, Usb, XCircle } from "lucide-react";
+import { CheckCircle2, FileText, ListChecks, PowerOff, ShieldAlert, Usb, XCircle } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { UsbSecurityLogo } from "@/components/UsbSecurityLogo";
+
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin@123";
 
 export const Route = createFileRoute("/")({
   head: () => ({
