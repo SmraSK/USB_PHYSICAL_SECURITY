@@ -1,9 +1,22 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { CheckCircle2, FileText, ListChecks, PowerOff, Usb, XCircle } from "lucide-react";
+import { CheckCircle2, FileText, ListChecks, PowerOff, ShieldAlert, Usb, XCircle } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { UsbSecurityLogo } from "@/components/UsbSecurityLogo";
+
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin@123";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,6 +51,10 @@ function Index() {
   const [showSplash, setShowSplash] = useState(true);
   const [usbEnabled, setUsbEnabled] = useState(true);
   const [showLogs, setShowLogs] = useState(false);
+  const [pendingAction, setPendingAction] = useState<"disable" | "enable" | null>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
   const [logs, setLogs] = useState([
     "System launched and USB monitor initialized",
     "Audit log ready for operator activity",
@@ -57,16 +74,34 @@ function Index() {
     setLogs((currentLogs) => [`${formatTime(new Date())} — ${message}`, ...currentLogs].slice(0, 8));
   };
 
-  const disableUsb = () => {
-    setUsbEnabled(false);
-    setShowLogs(false);
-    writeLog("DISABLE USB command accepted by operator");
+  const requestAction = (action: "disable" | "enable") => {
+    setPendingAction(action);
+    setUsername("");
+    setPassword("");
+    setAuthError("");
   };
 
-  const enableUsb = () => {
-    setUsbEnabled(true);
+  const closeAuth = () => {
+    setPendingAction(null);
+    setAuthError("");
+  };
+
+  const submitAuth = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!pendingAction) return;
+
+    const label = pendingAction === "disable" ? "DISABLE USB" : "ENABLE USB";
+
+    if (username.trim() !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
+      setAuthError("Invalid admin credentials. Access denied.");
+      writeLog(`${label} denied — failed admin authentication`);
+      return;
+    }
+
+    setUsbEnabled(pendingAction === "enable");
     setShowLogs(false);
-    writeLog("ENABLE USB command accepted by operator");
+    writeLog(`${label} command authorised by admin "${ADMIN_USERNAME}"`);
+    closeAuth();
   };
 
   const openLogs = () => {
@@ -116,11 +151,11 @@ function Index() {
 
         <section className="w-full max-w-sm bg-control-panel p-8 shadow-screen">
           <div className="grid gap-5">
-            <Button variant="console" size="console" onClick={disableUsb}>
+            <Button variant="console" size="console" onClick={() => requestAction("disable")}>
               <PowerOff />
               Disable USB
             </Button>
-            <Button variant="console" size="console" onClick={enableUsb}>
+            <Button variant="console" size="console" onClick={() => requestAction("enable")}>
               <Usb />
               Enable USB
             </Button>
@@ -165,6 +200,58 @@ function Index() {
           )}
         </section>
       </div>
+
+      <Dialog open={pendingAction !== null} onOpenChange={(open) => (open ? null : closeAuth())}>
+        <DialogContent className="border-console-frame bg-control-panel text-console-text">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 font-display text-xl font-bold">
+              <ShieldAlert className="size-5 text-status-disable" />
+              Admin authentication required
+            </DialogTitle>
+            <DialogDescription className="text-console-muted">
+              Only an administrator can {pendingAction === "enable" ? "enable" : "disable"} USB access.
+              Enter admin credentials to continue.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={submitAuth} className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="admin-username">Admin username</Label>
+              <Input
+                id="admin-username"
+                autoComplete="username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="admin-password">Password</Label>
+              <Input
+                id="admin-password"
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+            </div>
+
+            {authError ? (
+              <p className="text-sm font-bold text-status-disable">{authError}</p>
+            ) : null}
+
+            <DialogFooter className="gap-3 sm:gap-3">
+              <Button type="button" variant="outline" onClick={closeAuth}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="console">
+                Authenticate
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }
