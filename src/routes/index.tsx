@@ -51,6 +51,10 @@ function Index() {
   const [showSplash, setShowSplash] = useState(true);
   const [usbEnabled, setUsbEnabled] = useState(true);
   const [showLogs, setShowLogs] = useState(false);
+  const [pendingAction, setPendingAction] = useState<"disable" | "enable" | null>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
   const [logs, setLogs] = useState([
     "System launched and USB monitor initialized",
     "Audit log ready for operator activity",
