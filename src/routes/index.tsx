@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { UsbSecurityLogo } from "@/components/UsbSecurityLogo";
 
 const ADMIN_USERNAME = "admin";
-const ADMIN_PASSWORD = "admin@123";
+const ADMIN_PASSWORD = "Admin123";
 
 export const Route = createFileRoute("/")({
   head: () => ({
