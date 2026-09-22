@@ -53,7 +53,7 @@ function createWindow(targetUrl) {
     // links go to the system browser.
     if (url.startsWith(APP_ORIGIN)) {
       createWindow(url);
-et      return { action: "deny" };
+      return { action: "deny" };
     }
     if (url.startsWith("http")) void require("electron").shell.openExternal(url);
     return { action: "deny" };
