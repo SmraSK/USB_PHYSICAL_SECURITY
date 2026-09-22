@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
-import { SuprajaLogo } from "@/components/SuprajaLogo";
+import suprajaLogo from "@/assets/supraja-logo.png.asset.json";
 
 export const Route = createFileRoute("/project-info")({
   head: () => ({
@@ -98,7 +98,11 @@ function ProjectInfoPage() {
           <h1 className="text-4xl font-extrabold tracking-tight text-black sm:text-5xl">
             Project Information
           </h1>
-          <SuprajaLogo className="shrink-0" />
+          <img
+            src={suprajaLogo.url}
+            alt="Supraja Technologies"
+            className="h-16 w-auto shrink-0 sm:h-20"
+          />
         </div>
 
         <p className="mb-10 max-w-4xl text-lg leading-8 text-neutral-800 sm:text-xl sm:leading-9">
