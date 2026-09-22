@@ -7,6 +7,9 @@ export default defineConfig({
     base: process.env["ELECTRON_BUILD"] === "1" ? "./" : "/",
   },
   tanstackStart: {
+    // Electron packages a static client build; SPA mode emits the index.html
+    // shell the desktop shell loads. Web builds stay server-rendered.
+    spa: process.env["ELECTRON_BUILD"] === "1" ? { enabled: true } : undefined,
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
     server: { entry: "server" },
