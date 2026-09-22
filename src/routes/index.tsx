@@ -163,12 +163,6 @@ function Index() {
               <ListChecks />
               View Logs
             </Button>
-            <Button asChild variant="console" size="console">
-              <Link to="/project-info">
-                <FileText />
-                Project Info
-              </Link>
-            </Button>
           </div>
         </section>
 
