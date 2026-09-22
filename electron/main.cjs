@@ -1,7 +1,6 @@
 const { app, BrowserWindow, protocol, net, Menu } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { pathToFileURL } = require("url");
 
 const DIST = path.join(__dirname, "..", "dist");
 const APP_ORIGIN = "app://./";
