@@ -124,7 +124,7 @@ function Index() {
 
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-4xl flex-col items-center justify-center gap-7">
         <Button asChild variant="console" size="lg" className="w-auto px-7">
-          <Link to="/project-info">
+          <Link to="/project-info" target="_blank" rel="noopener noreferrer">
             <FileText />
             Project Info
           </Link>
