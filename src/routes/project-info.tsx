@@ -31,7 +31,7 @@ const projectRows = [
     "Project Description",
     "Implementing Physical Security Policy on USB Ports in Organization for Physical Security",
   ],
-  ["Project Start Date", "16-08-2026"],
+  ["Project Start Date", "16 August 2026"],
   ["Project End Date", "23 September 2026"],
   ["Project Status", "Completed"],
 ];
