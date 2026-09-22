@@ -20,13 +20,13 @@ function serveFromDist(url) {
   try {
     pathname = decodeURIComponent(new URL(url).pathname);
   } catch {
-    pathname = "/index.html";
+    pathname = "/_shell.html";
   }
-  const rel = pathname.replace(/^\/+/, "") || "index.html";
+  const rel = pathname.replace(/^\/+/, "") || "_shell.html";
   let file = path.join(DIST, rel);
   if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
-    // Client-side routes (e.g. /project-info) fall back to the app shell.
-    file = path.join(DIST, "index.html");
+    // Client-side routes (e.g. /project-info) fall back to the SPA shell.
+    file = path.join(DIST, "_shell.html");
   }
   return net.fetch(pathToFileURL(file).toString());
 }
@@ -70,6 +70,15 @@ function createWindow(targetUrl) {
     win.loadURL(targetUrl);
   } else {
     win.loadURL(APP_ORIGIN);
+  }
+  if (process.env["ECHECK"]) {
+    win.webContents.on("did-finish-load", () => {
+      win.webContents
+        .executeJavaScript("JSON.stringify({title: document.title, text: document.body.innerText.slice(0, 120), loc: location.href})")
+        .then((s) => console.log("ECHECK:", s))
+        .catch((e) => console.log("ECHECK-ERR:", e.message));
+    });
+    win.webContents.on("did-fail-load", (_e, code, desc) => console.log("ECHECK-FAIL:", code, desc));
   }
   return win;
 }
