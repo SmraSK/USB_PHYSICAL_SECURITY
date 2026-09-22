@@ -15,7 +15,23 @@ protocol.registerSchemesAsPrivileged([
   },
 ]);
 
-function serveFromDist(url) {
+const MIME = {
+  ".html": "text/html; charset=utf-8",
+  ".js": "text/javascript",
+  ".mjs": "text/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
+  ".woff": "font/woff",
+  ".woff2": "font/woff2",
+  ".txt": "text/plain; charset=utf-8",
+};
+
+async function serveFromDist(url) {
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(url).pathname);
@@ -28,7 +44,14 @@ function serveFromDist(url) {
     // Client-side routes (e.g. /project-info) fall back to the SPA shell.
     file = path.join(DIST, "_shell.html");
   }
-  return net.fetch(pathToFileURL(file).toString());
+  try {
+    const body = await fs.promises.readFile(file);
+    const type = MIME[path.extname(file).toLowerCase()] || "application/octet-stream";
+    return new Response(body, { headers: { "content-type": type } });
+  } catch (err) {
+    console.error("serve error", url, err.message);
+    return new Response("Not found", { status: 404 });
+  }
 }
 
 function createWindow(targetUrl) {
