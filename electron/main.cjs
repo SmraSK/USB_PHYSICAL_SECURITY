@@ -2,7 +2,7 @@ const { app, BrowserWindow, protocol, net, Menu } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
-const DIST = path.join(__dirname, "..", "dist");
+const DIST = path.join(__dirname, "..", "dist", "client");
 const APP_ORIGIN = "app://./";
 
 app.setName("USB Physical Security");
